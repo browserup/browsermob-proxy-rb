@@ -14,7 +14,7 @@ describe "Proxy + WebDriver" do
   after { proxy.close }
 
   it "should fetch a HAR" do
-    proxy.new_har "google.com"
+    proxy.new_har
     driver.get "http://google.com"
 
     har = proxy.har

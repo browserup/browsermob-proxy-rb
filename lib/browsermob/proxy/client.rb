@@ -19,9 +19,13 @@ module BrowserMob
         @port = port
       end
 
-      def new_har(initial_page_ref)
-        previous = @resource["har"].put :initialPageRef => initial_page_ref
+      def new_har(ref = nil)
+        previous = @resource["har"].put :initialPageRef => ref
         HAR::Archive.from_string(previous) unless previous.empty?
+      end
+      
+      def new_page(ref)
+        @resource['har/pageRef'].put :pageRef => ref
       end
 
       def har
