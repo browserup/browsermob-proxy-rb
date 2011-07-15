@@ -2,6 +2,8 @@ module BrowserMob
   module Proxy
 
     class Client
+      attr_reader :host, :port
+
       def self.from(server_url)
         port = JSON.parse(
           RestClient.post(URI.join(server_url, "proxy").to_s, '')
@@ -23,7 +25,7 @@ module BrowserMob
         previous = @resource["har"].put :initialPageRef => ref
         HAR::Archive.from_string(previous) unless previous.empty?
       end
-      
+
       def new_page(ref)
         @resource['har/pageRef'].put :pageRef => ref
       end
@@ -35,6 +37,16 @@ module BrowserMob
       def selenium_proxy
         require 'selenium-webdriver' unless defined?(Selenium)
         Selenium::WebDriver::Proxy.new(:http => "#{@host}:#{@port}")
+      end
+
+      def whitelist(regexp, status_code)
+        regex = Regexp === regexp ? regexp.source : regexp.to_s
+        @resource['har/whitelist'].put :regex => regex, :status => status_code
+      end
+
+      def blacklist(regexp, status_code)
+        regex = Regexp === regexp ? regexp.source : regexp.to_s
+        @resource['har/blacklist'].put :regex => regex, :status => status_code
       end
 
       def close
