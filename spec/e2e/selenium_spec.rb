@@ -14,12 +14,15 @@ describe "Proxy + WebDriver" do
   after { proxy.close }
 
   it "should fetch a HAR" do
-    proxy.new_har
+    proxy.new_har("google")
     driver.get "http://google.com"
+
+    proxy.new_page "yahoo.com"
+    driver.get "http://yahoo.com"
 
     har = proxy.har
 
     har.should be_kind_of(HAR::Archive)
-    har.pages.size.should == 1
+    har.pages.size.should == 2
   end
 end
