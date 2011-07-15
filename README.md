@@ -1,6 +1,35 @@
 browsermob-proxy-rb
 ===================
 
+Ruby client for the BrowserMob Proxy 2.0 REST API.
+
+How to use with selenium-webdriver
+----------------------------------
+
+    require 'selenium/webdriver'
+    require 'browsermob/proxy'
+
+    server = BrowserMob::Proxy::Server.new("/path/to/download/browsermob-proxy") #=> #<BrowserMob::Proxy::Server:0x000001022c6ea8 ...>
+    server.start
+
+    proxy = server.create_proxy #=> #<BrowserMob::Proxy::Client:0x0000010224bdc0 ...>
+
+    profile = Selenium::WebDriver::Firefox::Profile.new #=> #<Selenium::WebDriver::Firefox::Profile:0x000001022bf748 ...>
+    profile.proxy = client.selenium_proxy
+
+    driver = Selenium::WebDriver.for :firefox, :profile => profile
+
+    proxy.new_har("google")
+    driver.get "http://google.com"
+
+    har = proxy.har #=> #<HAR::Archive:0x-27066c42d7e75fa6>
+    har.entries.first.request.url
+    har.save_to "/tmp/google.har"
+
+    proxy.close
+    driver.quit
+
+
 See also
 --------
 
