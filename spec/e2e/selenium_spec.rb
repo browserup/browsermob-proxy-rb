@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe "Proxy + WebDriver" do
   let(:driver)  { Selenium::WebDriver.for :firefox, :profile => profile }
-  let(:proxy) { BrowserMob::Proxy.create("http://localhost:8080") }
+  let(:proxy) { new_proxy }
   let(:profile) {
     pr = Selenium::WebDriver::Firefox::Profile.new
     pr.proxy = proxy.selenium_proxy
