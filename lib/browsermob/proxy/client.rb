@@ -2,6 +2,17 @@ module BrowserMob
   module Proxy
 
     class Client
+      def self.from(server_url)
+        port = JSON.parse(
+          RestClient.post(URI.join(server_url, "proxy").to_s, '')
+        ).fetch('port')
+
+        uri = URI.parse(File.join(server_url, "proxy", port.to_s))
+        resource = RestClient::Resource.new(uri.to_s)
+
+        Client.new resource, uri.host, port
+      end
+
       def initialize(resource, host, port)
         @resource = resource
         @host = host

@@ -15,6 +15,7 @@ Gem::Specification.new do |s|
   s.rubyforge_project = "browsermob-proxy-rb"
 
   s.add_runtime_dependency "rest-client"
+  s.add_runtime_dependency "childprocess"
   s.add_runtime_dependency "json"
   s.add_runtime_dependency "har"
 
