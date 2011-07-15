@@ -8,14 +8,18 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["jari.bakken"]
   s.email       = ["jari.bakken@gmail.com"]
-  s.homepage    = ""
+  s.homepage    = "http://github.com/jarib/browsermob-proxy-rb"
   s.summary     = %q{Ruby client for the BrowserMob Proxy REST API}
   s.description = %q{Ruby client for the BrowserMob Proxy REST API}
 
   s.rubyforge_project = "browsermob-proxy-rb"
-  
-  s.add_runtime_dependency "restclient"
+
+  s.add_runtime_dependency "rest-client"
+  s.add_runtime_dependency "json"
   s.add_runtime_dependency "har"
+
+  s.add_development_dependency "rspec", ">= 2.5.0"
+  s.add_development_dependency "selenium-webdriver", ">= 2.0.0"
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
