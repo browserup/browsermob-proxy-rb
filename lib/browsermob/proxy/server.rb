@@ -27,6 +27,9 @@ module BrowserMob
         @process.start
         sleep 0.1 until listening?
 
+        pid = Process.pid
+        at_exit { stop if Process.pid == pid }
+
         self
       end
 
