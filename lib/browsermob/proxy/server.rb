@@ -51,8 +51,6 @@ module BrowserMob
         end
       rescue Errno::ECHILD
         # already dead
-      ensure
-        @process = nil
       end
 
       private
