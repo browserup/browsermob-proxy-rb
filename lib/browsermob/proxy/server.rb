@@ -42,15 +42,7 @@ module BrowserMob
       end
 
       def stop
-        return unless @process.alive?
-
-        begin
-          @process.poll_for_exit(5)
-        rescue ChildProcess::TimeoutError
-          @process.stop
-        end
-      rescue Errno::ECHILD
-        # already dead
+        @process.stop if @process.alive?
       end
 
       private
