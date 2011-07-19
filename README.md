@@ -31,6 +31,13 @@ proxy.close
 driver.quit
 ```
 
+Viewing HARs
+------------
+
+The HAR gem includes a HAR viewer. After running the code above, you can view the saved HAR by running
+
+    $ har /tmp/google.har
+
 
 See also
 --------
