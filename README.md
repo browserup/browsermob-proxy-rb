@@ -44,10 +44,11 @@ require 'browsermob/proxy/webdriver_listener'
 proxy_listener = BrowserMob::Proxy::WebDriverListener.new(proxy)
 
 driver = Selenium::WebDriver.for :firefox, :profile => profile, :listener => proxy_listener
-
 # use driver
+driver.quit
 
 listener.hars #=> [#<HAR::Archive:0x-27066c42d7e75fa6>, #<HAR::Archive:0x-d7e75fa627066c42>]
+proxy.close
 
 ```
 
