@@ -1,5 +1,6 @@
 require 'browsermob/proxy'
 require 'selenium-webdriver'
+require 'browsermob/proxy/webdriver_listener'
 
 RestClient.log = STDOUT
 
@@ -19,7 +20,15 @@ module BrowserMob
       end
 
       def fixture(name)
-        File.read(File.join(File.expand_path("../", __FILE__), "fixtures", name))
+        File.read(fixture_path(name))
+      end
+
+      def url_for(page)
+        "file://#{fixture_path page}"
+      end
+
+      def fixture_path(name)
+        File.join(File.expand_path("../", __FILE__), "fixtures", name)
       end
 
     end

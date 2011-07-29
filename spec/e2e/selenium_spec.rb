@@ -3,6 +3,9 @@ require 'spec_helper'
 describe "Proxy + WebDriver" do
   let(:driver)  { Selenium::WebDriver.for :firefox, :profile => profile }
   let(:proxy) { new_proxy }
+  let(:listener) { BrowserMob::Proxy::WebDriverListener.new(proxy) }
+  let(:listening_driver)  { Selenium::WebDriver.for :firefox, :profile => profile, :listener => listener }
+
   let(:profile) {
     pr = Selenium::WebDriver::Firefox::Profile.new
     pr.proxy = proxy.selenium_proxy
@@ -10,15 +13,17 @@ describe "Proxy + WebDriver" do
     pr
   }
 
-  after { driver.quit }
-  after { proxy.close }
+  after {
+    driver.quit
+    proxy.close
+  }
 
   it "should fetch a HAR" do
-    proxy.new_har("google")
-    driver.get "http://google.com"
+    proxy.new_har("1")
+    driver.get url_for("1.html")
 
-    proxy.new_page "yahoo.com"
-    driver.get "http://yahoo.com"
+    proxy.new_page "2.com"
+    driver.get url_for("2.html")
 
     har = proxy.har
 

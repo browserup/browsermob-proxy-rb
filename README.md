@@ -6,6 +6,8 @@ Ruby client for the BrowserMob Proxy 2.0 REST API.
 How to use with selenium-webdriver
 ----------------------------------
 
+Manually:
+
 ``` ruby
 require 'selenium/webdriver'
 require 'browsermob/proxy'
@@ -30,6 +32,25 @@ har.save_to "/tmp/google.har"
 proxy.close
 driver.quit
 ```
+
+With event listener:
+
+```
+require 'selenium/webdriver'
+require 'browsermob/proxy'
+require 'browsermob/proxy/webdriver_listener'
+
+# start server, set up proxy like above
+proxy_listener = BrowserMob::Proxy::WebDriverListener.new(proxy)
+
+driver = Selenium::WebDriver.for :firefox, :profile => profile, :listener => proxy_listener
+
+# use driver
+
+listener.hars #=> [#<HAR::Archive:0x-27066c42d7e75fa6>, #<HAR::Archive:0x-d7e75fa627066c42>]
+
+```
+
 
 Viewing HARs
 ------------
