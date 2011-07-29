@@ -35,7 +35,7 @@ driver.quit
 
 With event listener:
 
-```
+``` ruby
 require 'selenium/webdriver'
 require 'browsermob/proxy'
 require 'browsermob/proxy/webdriver_listener'
