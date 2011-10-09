@@ -24,31 +24,31 @@ module BrowserMob
         @hars.clear
       end
 
-      def before_navigate_to(url)
+      def before_navigate_to(url, driver)
         save_har unless @hars.empty? # first request
         @client.new_har("navigate-to-#{url}")
       end
 
-      def before_navigate_back(driver = nil) # post selenium-webdriver 2.3
+      def before_navigate_back(driver = nil)
         name = "navigate-back"
         name << "-from-#{driver.current_url}" if driver
 
         @client.new_page name
       end
 
-      def before_navigate_forward(driver = nil) # post selenium-webdriver 2.3
+      def before_navigate_forward(driver = nil)
         name = "navigate-forward"
         name << "-from-#{driver.current_url}" if driver
 
         @client.new_page name
       end
 
-      def before_click(element)
+      def before_click(element, driver)
         name = "click-element-#{identifier_for element}"
         @client.new_page name
       end
 
-      def before_quit
+      def before_quit(driver)
         save_har
       end
 
