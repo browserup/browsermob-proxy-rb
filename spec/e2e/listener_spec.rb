@@ -1,10 +1,11 @@
 require 'spec_helper'
 
 describe "Proxy + WebDriverListener" do
-  let(:wait) { Selenium::WebDriver::Wait.new }
-  let(:listener) { BrowserMob::Proxy::WebDriverListener.new(proxy) }
-  let(:driver)  { Selenium::WebDriver.for :firefox, :profile => profile, :listener => listener }
   let(:proxy) { new_proxy }
+  let(:listener) { BrowserMob::Proxy::WebDriverListener.new(proxy) }
+
+  let(:driver)  { Selenium::WebDriver.for :firefox, :profile => profile, :listener => listener }
+  let(:wait) { Selenium::WebDriver::Wait.new }
 
   let(:profile) {
     pr = Selenium::WebDriver::Firefox::Profile.new
@@ -13,9 +14,7 @@ describe "Proxy + WebDriverListener" do
     pr
   }
 
-  after {
-    proxy.close
-  }
+  after { proxy.close }
 
   it "should record events" do
     driver.get url_for("1.html")
@@ -26,7 +25,5 @@ describe "Proxy + WebDriverListener" do
     hars.size.should == 1
 
     hars.first.pages.size.should == 2
-
-    hars.each_with_index { |e,i| e.save_to("/tmp/#{i}.har") }
   end
 end

@@ -41,18 +41,42 @@ module BrowserMob
 
       def whitelist(regexp, status_code)
         regex = Regexp === regexp ? regexp.source : regexp.to_s
-        @resource['har/whitelist'].put :regex => regex, :status => status_code
+        @resource['whitelist'].put :regex => regex, :status => status_code
       end
 
       def blacklist(regexp, status_code)
         regex = Regexp === regexp ? regexp.source : regexp.to_s
-        @resource['har/blacklist'].put :regex => regex, :status => status_code
+        @resource['blacklist'].put :regex => regex, :status => status_code
+      end
+
+      LIMITS = {
+        :upstream_kbps   => 'upstreamKbps',
+        :downstream_kbps => 'downstreamKbps',
+        :latency         => 'latency'
+      }
+
+      def limit(opts)
+        params = {}
+
+        opts.each do |key, value|
+          unless LIMITS.member?(key)
+            raise ArgumentError, "invalid: #{key.inspect} (valid options: #{LIMITS.keys.inspect})"
+          end
+
+          params[LIMITS[key]] = Integer(value)
+        end
+
+        if params.empty?
+          raise ArgumentError, "must specify one of #{LIMITS.keys.inspect}"
+        end
+
+        @resource['limit'].put params
       end
 
       def close
         @resource.delete
       end
-    end
+    end # Client
 
-  end
-end
+  end # Proxy
+end # BrowserMob

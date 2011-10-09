@@ -9,10 +9,11 @@ module BrowserMob
 
       before do
         {
-          "har"           => mock("resource[har]"),
-          "har/pageRef"   => mock("resource[har/pageRef]"),
-          "har/whitelist" => mock("resource[har/whitelist]"),
-          "har/blacklist" => mock("resource[har/blacklist]")
+          "har"         => mock("resource[har]"),
+          "har/pageRef" => mock("resource[har/pageRef]"),
+          "whitelist"   => mock("resource[whitelist]"),
+          "blacklist"   => mock("resource[blacklist]"),
+          "limit"       => mock("resource[limit]")
         }.each do |path, mock|
           resource.stub!(:[]).with(path).and_return(mock)
         end
@@ -49,17 +50,50 @@ module BrowserMob
       end
 
       it "sets the blacklist" do
-        resource['har/blacklist'].should_receive(:put).
-                                  with(:regex => "http://example.com", :status => 401)
+        resource['blacklist'].should_receive(:put).
+                              with(:regex => "http://example.com", :status => 401)
 
         client.blacklist(%r[http://example.com], 401)
       end
 
       it "sets the whitelist" do
-        resource['har/whitelist'].should_receive(:put).
-                                  with(:regex => "http://example.com", :status => 401)
+        resource['whitelist'].should_receive(:put).
+                              with(:regex => "http://example.com", :status => 401)
 
         client.whitelist(%r[http://example.com], 401)
+      end
+
+      it "sets the :downstream_kbps limit" do
+        resource['limit'].should_receive(:put).
+                          with('downstreamKbps' => 100)
+
+        client.limit(:downstream_kbps => 100)
+      end
+
+      it "sets the :upstream_kbps limit" do
+        resource['limit'].should_receive(:put).
+                          with('upstreamKbps' => 100)
+
+        client.limit(:upstream_kbps => 100)
+      end
+
+      it "sets the :latency limit" do
+        resource['limit'].should_receive(:put).
+                          with('latency' => 100)
+
+        client.limit(:latency => 100)
+      end
+
+      it "sets all limits" do
+        resource['limit'].should_receive(:put).
+                          with('latency' => 100, 'downstreamKbps' => 200, 'upstreamKbps' => 300)
+
+        client.limit(:latency => 100, :downstream_kbps => 200, :upstream_kbps => 300)
+      end
+
+      it "raises ArgumentError on invalid options" do
+        lambda { client.limit(:foo => 1) }.should raise_error(ArgumentError)
+        lambda { client.limit({})        }.should raise_error(ArgumentError)
       end
     end
 

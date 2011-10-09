@@ -28,4 +28,14 @@ describe "Proxy + WebDriver" do
     har.should be_kind_of(HAR::Archive)
     har.pages.size.should == 2
   end
+
+  it "should set whitelist and blacklist" do
+    proxy.whitelist(/example\.com/, 201)
+    proxy.blacklist(/bad\.com/, 404)
+  end
+
+  it "should set limits" do
+    proxy.limit(:downstream_kbps => 100, :upstream_kbps => 100, :latency => 2)
+  end
+
 end
