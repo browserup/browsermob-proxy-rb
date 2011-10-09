@@ -3,6 +3,9 @@ browsermob-proxy-rb
 
 Ruby client for the BrowserMob Proxy 2.0 REST API.
 
+[![Build Status](https://secure.travis-ci.org/jarib/browsermob-proxy-rb.png)](http://travis-ci.org/jarib/browsermob-proxy-rb)
+
+
 How to use with selenium-webdriver
 ----------------------------------
 
@@ -52,14 +55,12 @@ proxy.close
 
 ```
 
-
 Viewing HARs
 ------------
 
 The HAR gem includes a HAR viewer. After running the code above, you can view the saved HAR by running
 
     $ har /tmp/google.har
-
 
 See also
 --------
