@@ -18,4 +18,4 @@ end
 desc 'Run all specs.'
 task :spec => %w[spec:unit spec:e2e]
 
-task :default => %w[spec:unit]
+task :default => :spec
