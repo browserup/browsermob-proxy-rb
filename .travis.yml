@@ -2,6 +2,6 @@ before_script:
   - sudo apt-get install -y unzip
   - curl -k -L -O https://github.com/downloads/webmetrics/browsermob-proxy/browsermob-proxy-2.0-beta-3-bin.zip
   - unzip browsermob-proxy-2.0-beta-3-bin.zip
-  - ln -s `pwd`/browsermob-proxy-2.0-beta-3 /tmp/browsermob-proxy
-  - sudo chmod +x /tmp/browsermob-proxy/bin/browsermob-proxy
+  - export BROWSERMOB_PROXY_HOME=`pwd`/browsermob-proxy-2.0-beta-3
+  - sudo chmod +x $BROWSERMOB_PROXY_HOME/bin/browsermob-proxy
   - sh -e /etc/init.d/xvfb start

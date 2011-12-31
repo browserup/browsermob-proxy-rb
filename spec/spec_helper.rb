@@ -43,5 +43,4 @@ end
 
 if ENV['TRAVIS']
   ENV['DISPLAY'] = ":99"
-  ENV['BROWSERMOB_PROXY_HOME'] = "/tmp/browsermob-proxy"
 end
