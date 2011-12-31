@@ -5,3 +5,4 @@ before_script:
   - export BROWSERMOB_PROXY_HOME=`pwd`/browsermob-proxy-2.0-beta-3
   - sudo chmod +x $BROWSERMOB_PROXY_HOME/bin/browsermob-proxy
   - sh -e /etc/init.d/xvfb start
+  - export DISPLAY=:99

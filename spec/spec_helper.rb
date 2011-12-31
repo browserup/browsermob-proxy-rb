@@ -40,7 +40,3 @@ RSpec.configure do |c|
   c.include(BrowserMob::Proxy::SpecHelper)
   c.after(:suite) { $_bm_server.stop if $_bm_server }
 end
-
-if ENV['TRAVIS']
-  ENV['DISPLAY'] = ":99"
-end
