@@ -13,7 +13,8 @@ module BrowserMob
           "har/pageRef" => mock("resource[har/pageRef]"),
           "whitelist"   => mock("resource[whitelist]"),
           "blacklist"   => mock("resource[blacklist]"),
-          "limit"       => mock("resource[limit]")
+          "limit"       => mock("resource[limit]"),
+          "headers"     => mock("resource[headers]")
         }.each do |path, mock|
           resource.stub!(:[]).with(path).and_return(mock)
         end
@@ -94,6 +95,12 @@ module BrowserMob
       it "raises ArgumentError on invalid options" do
         lambda { client.limit(:foo => 1) }.should raise_error(ArgumentError)
         lambda { client.limit({})        }.should raise_error(ArgumentError)
+      end
+
+      it "sets headers" do
+        resource['headers'].should_receive(:post).with('{"foo":"bar"}', :content_type => "application/json")
+
+        client.headers(:foo => "bar")
       end
     end
 

@@ -34,6 +34,10 @@ describe "Proxy + WebDriver" do
     proxy.blacklist(/bad\.com/, 404)
   end
 
+  it "should set headers" do
+    proxy.headers('Content-Type' => "text/html")
+  end
+
   it "should set limits" do
     proxy.limit(:downstream_kbps => 100, :upstream_kbps => 100, :latency => 2)
   end

@@ -49,6 +49,11 @@ module BrowserMob
         @resource['blacklist'].put :regex => regex, :status => status_code
       end
 
+      def header(hash)
+        @resource['headers'].post hash.to_json, :content_type => "application/json"
+      end
+      alias_method :headers, :header
+
       LIMITS = {
         :upstream_kbps   => 'upstreamKbps',
         :downstream_kbps => 'downstreamKbps',
