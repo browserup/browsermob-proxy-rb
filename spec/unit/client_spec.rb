@@ -102,6 +102,38 @@ module BrowserMob
 
         client.headers(:foo => "bar")
       end
+
+      context "#selenium_proxy" do
+        it "defaults to HTTP proxy only" do
+          proxy = client.selenium_proxy
+
+          proxy.http.should == "#{client.host}:#{client.port}"
+          proxy.ssl.should be_nil
+          proxy.ftp.should be_nil
+        end
+
+        it "allows multiple protocols" do
+          proxy = client.selenium_proxy(:http, :ssl)
+
+          proxy.http.should == "#{client.host}:#{client.port}"
+          proxy.ssl.should == "#{client.host}:#{client.port}"
+          proxy.ftp.should be_nil
+        end
+
+        it "allows disabling HTTP proxy" do
+          proxy = client.selenium_proxy(:ssl)
+
+          proxy.ssl.should == "#{client.host}:#{client.port}"
+          proxy.http.should be_nil
+          proxy.ftp.should be_nil
+        end
+
+        it "raises an error when a bad protocol is used" do
+          lambda {
+            client.selenium_proxy(:htp)
+          }.should raise_error
+        end
+      end
     end
 
   end
