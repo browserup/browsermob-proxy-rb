@@ -34,9 +34,17 @@ module BrowserMob
         HAR::Archive.from_string @resource["har"].get
       end
 
-      def selenium_proxy
+      def selenium_proxy(*protocols)
         require 'selenium-webdriver' unless defined?(Selenium)
-        Selenium::WebDriver::Proxy.new(:http => "#{@host}:#{@port}")
+
+        protocols += [:http] if protocols.empty?
+        unless (protocols - [:http, :ssl, :ftp]).empty?
+          raise "Invalid protocol specified.  Must be one of: :http, :ssl, or :ftp."
+        end
+
+        proxy_mapping = {}
+        protocols.each { |proto| proxy_mapping[proto] = "#{@host}:#{@port}" }
+        Selenium::WebDriver::Proxy.new(proxy_mapping)
       end
 
       def whitelist(regexp, status_code)
