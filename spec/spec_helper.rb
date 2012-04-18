@@ -8,7 +8,11 @@ module BrowserMob
   module Proxy
     module SpecHelper
       def server
-        $_bm_server ||= Server.new(File.join(home, "bin", "browsermob-proxy"), :log => true).start
+        $_bm_server ||= Server.new(
+          File.join(home, "bin", "browsermob-proxy"),
+          :port => Selenium::WebDriver::PortProber.random,
+          :log => true
+        ).start
       end
 
       def new_proxy
@@ -34,7 +38,6 @@ module BrowserMob
     end
   end
 end
-
 
 RSpec.configure do |c|
   c.include(BrowserMob::Proxy::SpecHelper)

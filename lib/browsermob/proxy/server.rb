@@ -49,7 +49,7 @@ module BrowserMob
 
 
       def listening?
-        TCPSocket.new("localhost", port).close
+        TCPSocket.new("127.0.0.1", port).close
         true
       rescue
         false
