@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency "rest-client"
   s.add_runtime_dependency "childprocess"
-  s.add_runtime_dependency "json"
+  s.add_runtime_dependency "multi_json", "~> 1.0"
   s.add_runtime_dependency "har"
 
   s.add_development_dependency "rspec", ">= 2.5.0"
