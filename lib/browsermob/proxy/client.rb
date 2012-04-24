@@ -5,7 +5,8 @@ module BrowserMob
       attr_reader :host, :port
 
       def self.from(server_url)
-        port = JSON.parse(
+        decode_method = MultiJson.respond_to?(:load) ? :load : :decode
+        port = MultiJson.send(decode_method,
           RestClient.post(URI.join(server_url, "proxy").to_s, '')
         ).fetch('port')
 
