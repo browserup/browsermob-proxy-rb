@@ -1,5 +1,5 @@
 require 'restclient'
-require 'json'
+require 'multi_json'
 require 'har'
 
 require 'browsermob/proxy/client'
