@@ -9,10 +9,10 @@ module BrowserMob
       let(:listener) { WebDriverListener.new(client) }
       let(:element)  { mock(Selenium::WebDriver::Element, :ref => "some-id")}
       let(:har)      { mock(HAR::Archive) }
+      let(:url)      { "http://example.com" }
 
       it 'creates a new har on navigate.to' do
-        url = "http://example.com"
-        client.should_receive(:new_har).with("navigate-to-http://example.com")
+        client.should_receive(:new_har).with("navigate-to-http://example.com", {})
         client.should_receive(:har).and_return(:har)
 
         listener.before_navigate_to(url, driver)
@@ -43,6 +43,13 @@ module BrowserMob
 
         listener.before_quit(driver)
         listener.hars.size.should == 1
+      end
+
+      it 'passes the :capture_headers option' do
+        listener = WebDriverListener.new(client, :capture_headers => true)
+        client.should_receive(:new_har).with("navigate-to-http://example.com", :capture_headers => true)
+
+        listener.before_navigate_to(url, driver)
       end
     end
   end

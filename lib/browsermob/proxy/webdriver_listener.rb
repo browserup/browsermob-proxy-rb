@@ -15,9 +15,12 @@ module BrowserMob
     class WebDriverListener < Selenium::WebDriver::Support::AbstractEventListener
       attr_reader :hars
 
-      def initialize(client)
+      def initialize(client, opts = {})
         @client = client
         @hars = []
+
+        @new_har_opts = {}
+        @new_har_opts[:capture_headers] = true if opts[:capture_headers]
       end
 
       def reset
@@ -26,7 +29,7 @@ module BrowserMob
 
       def before_navigate_to(url, driver)
         save_har unless @hars.empty? # first request
-        @client.new_har("navigate-to-#{url}")
+        @client.new_har("navigate-to-#{url}", @new_har_opts)
       end
 
       def before_navigate_back(driver = nil)
