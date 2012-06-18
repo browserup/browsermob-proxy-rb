@@ -20,12 +20,20 @@ module BrowserMob
         end
       end
 
-      it "creates a new har" do
+      it "creates a named har" do
         resource['har'].should_receive(:put).
                         with(:initialPageRef => "foo").
                         and_return('')
 
         client.new_har("foo").should be_nil
+      end
+
+      it "creates a new har with no name" do
+        resource['har'].should_receive(:put).
+                        with({}).
+                        and_return('')
+
+        client.new_har.should be_nil
       end
 
       it "returns the previous archive if one exists" do
@@ -34,6 +42,22 @@ module BrowserMob
                         and_return(fixture("google.har"))
 
         client.new_har("foo").should be_kind_of(HAR::Archive)
+      end
+
+      it "turns on header capture when given a name" do
+        resource['har'].should_receive(:put).
+                        with(:initialPageRef => "foo", :captureHeaders => true).
+                        and_return('')
+
+        client.new_har("foo", :capture_headers => true).should be_nil
+      end
+
+      it "turns on header capture when not given a name" do
+        resource['har'].should_receive(:put).
+                        with(:captureHeaders => true).
+                        and_return('')
+
+        client.new_har(:capture_headers => true).should be_nil
       end
 
       it "gets the current har" do

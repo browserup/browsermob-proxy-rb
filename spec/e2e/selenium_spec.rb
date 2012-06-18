@@ -29,6 +29,17 @@ describe "Proxy + WebDriver" do
     har.pages.size.should == 2
   end
 
+  it "should fetch a HAR and capture headers" do
+    proxy.new_har("2", :capture_headers => true)
+
+    driver.get url_for("2.html")
+
+    entry = proxy.har.entries.first
+    entry.should_not be_nil
+
+    entry.request.headers.should_not be_empty
+  end
+
   it "should set whitelist and blacklist" do
     proxy.whitelist(/example\.com/, 201)
     proxy.blacklist(/bad\.com/, 404)

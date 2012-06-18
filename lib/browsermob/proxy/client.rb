@@ -22,8 +22,27 @@ module BrowserMob
         @port = port
       end
 
-      def new_har(ref = nil)
-        previous = @resource["har"].put :initialPageRef => ref
+      #
+      # Examples:
+      #
+      #   client.new_har("page-name")
+      #   client.new_har("page-name", :capture_headers => true)
+      #   client.new_har(:capture_headers => true)
+      #
+
+      def new_har(ref = nil, opts = {})
+        if opts.empty? && ref.kind_of?(Hash)
+          opts = ref
+          ref = nil
+        end
+
+        params = {}
+
+        params[:initialPageRef] = ref if ref
+        params[:captureHeaders] = true if opts[:capture_headers]
+
+
+        previous = @resource["har"].put params
         HAR::Archive.from_string(previous) unless previous.empty?
       end
 
