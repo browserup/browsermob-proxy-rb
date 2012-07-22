@@ -5,7 +5,10 @@ module BrowserMob
       attr_reader :host, :port
 
       def self.from(server_url)
-        decode_method = MultiJson.respond_to?(:load) ? :load : :decode
+        # ActiveSupport may define Object#load, so we can't use MultiJson.respond_to? here.
+        sm = MultiJson.singleton_methods.map { |e| e.to_sym }
+        decode_method = sm.include?(:load) ? :load : :decode
+
         port = MultiJson.send(decode_method,
           RestClient.post(URI.join(server_url, "proxy").to_s, '')
         ).fetch('port')
