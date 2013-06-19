@@ -85,6 +85,11 @@ module BrowserMob
       end
       alias_method :headers, :header
 
+      def basic_authentication(domain, username, password)
+        data = { username: username, password: password }
+        @resource["auth/basic/#{domain}"].post data.to_json, :content_type => "application/json"
+      end
+
       LIMITS = {
         :upstream_kbps   => 'upstreamKbps',
         :downstream_kbps => 'downstreamKbps',
