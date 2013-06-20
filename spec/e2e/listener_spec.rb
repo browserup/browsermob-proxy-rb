@@ -18,6 +18,7 @@ describe "Proxy + WebDriverListener" do
 
   it "should record events" do
     driver.get url_for("1.html")
+    wait.until { driver.title == '1' }
     driver.find_element(:link_text => "2").click
     driver.quit
 

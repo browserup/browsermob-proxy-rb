@@ -3,6 +3,7 @@ require 'spec_helper'
 describe "Proxy + WebDriver" do
   let(:driver)  { Selenium::WebDriver.for :firefox, :profile => profile }
   let(:proxy) { new_proxy }
+  let(:wait) { Selenium::WebDriver::Wait.new }
 
   let(:profile) {
     pr = Selenium::WebDriver::Firefox::Profile.new
@@ -19,9 +20,11 @@ describe "Proxy + WebDriver" do
   it "should fetch a HAR" do
     proxy.new_har("1")
     driver.get url_for("1.html")
+    wait.until { driver.title == '1' }
 
     proxy.new_page "2"
     driver.get url_for("2.html")
+    wait.until { driver.title == '2' }
 
     har = proxy.har
 
@@ -33,6 +36,7 @@ describe "Proxy + WebDriver" do
     proxy.new_har("2", :capture_headers => true)
 
     driver.get url_for("2.html")
+    wait.until { driver.title == '2' }
 
     entry = proxy.har.entries.first
     entry.should_not be_nil
