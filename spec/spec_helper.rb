@@ -55,7 +55,7 @@ module BrowserMob
 
           at_exit { Process.kill 'TERM', pid }
 
-          poller = Selenium::WebDriver::SocketPoller.new("localhost", @port, 10)
+          poller = Selenium::WebDriver::SocketPoller.new("0.0.0.0", @port, 10)
 
           unless poller.connected?
             raise "unable to start web server in 5 seconds"
