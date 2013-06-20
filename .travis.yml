@@ -2,9 +2,9 @@ rvm:
   - 1.9.2
 before_script:
   - sudo apt-get install -y unzip
-  - curl -k -L -O https://github.com/downloads/webmetrics/browsermob-proxy/browsermob-proxy-2.0-beta-6-bin.zip
-  - unzip browsermob-proxy-2.0-beta-6-bin.zip
-  - export BROWSERMOB_PROXY_HOME=`pwd`/browsermob-proxy-2.0-beta-6
+  - curl -k -L -O https://s3-us-west-1.amazonaws.com/lightbody-bmp/browsermob-proxy-2.0-beta-8-bin.zip
+  - unzip browsermob-proxy-2.0-beta-8-bin.zip
+  - export BROWSERMOB_PROXY_HOME=`pwd`/browsermob-proxy-2.0-beta-8-bin
   - sudo chmod +x $BROWSERMOB_PROXY_HOME/bin/browsermob-proxy
   - sh -e /etc/init.d/xvfb start
   - export DISPLAY=:99
