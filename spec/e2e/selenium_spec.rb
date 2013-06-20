@@ -3,7 +3,7 @@ require 'spec_helper'
 describe "Proxy + WebDriver" do
   let(:driver)  { Selenium::WebDriver.for :firefox, :profile => profile }
   let(:proxy) { new_proxy }
-  let(:wait) { Selenium::WebDriver::Wait.new }
+  let(:wait) { Selenium::WebDriver::Wait.new(:timeout => 10) }
 
   let(:profile) {
     pr = Selenium::WebDriver::Firefox::Profile.new

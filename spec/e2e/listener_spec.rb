@@ -5,7 +5,7 @@ describe "Proxy + WebDriverListener" do
   let(:listener) { BrowserMob::Proxy::WebDriverListener.new(proxy) }
 
   let(:driver)  { Selenium::WebDriver.for :firefox, :profile => profile, :listener => listener }
-  let(:wait) { Selenium::WebDriver::Wait.new }
+  let(:wait) { Selenium::WebDriver::Wait.new(:timeout => 10) }
 
   let(:profile) {
     pr = Selenium::WebDriver::Firefox::Profile.new
