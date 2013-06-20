@@ -3,18 +3,21 @@ require 'spec_helper'
 module BrowserMob
   module Proxy
 
+    DOMAIN = 'example.com'
+
     describe Client do
       let(:resource)      { mock(RestClient::Resource) }
       let(:client)        { Client.new(resource, "localhost", 9091) }
 
       before do
         {
-          "har"         => mock("resource[har]"),
-          "har/pageRef" => mock("resource[har/pageRef]"),
-          "whitelist"   => mock("resource[whitelist]"),
-          "blacklist"   => mock("resource[blacklist]"),
-          "limit"       => mock("resource[limit]"),
-          "headers"     => mock("resource[headers]")
+          "har"                  => mock("resource[har]"),
+          "har/pageRef"          => mock("resource[har/pageRef]"),
+          "whitelist"            => mock("resource[whitelist]"),
+          "blacklist"            => mock("resource[blacklist]"),
+          "limit"                => mock("resource[limit]"),
+          "headers"              => mock("resource[headers]"),
+          "auth/basic/#{DOMAIN}" => mock("resource[auth/basic/#{DOMAIN}]")
         }.each do |path, mock|
           resource.stub!(:[]).with(path).and_return(mock)
         end
@@ -125,6 +128,13 @@ module BrowserMob
         resource['headers'].should_receive(:post).with('{"foo":"bar"}', :content_type => "application/json")
 
         client.headers(:foo => "bar")
+      end
+
+      it 'sets basic authentication' do
+        user, password = 'user', 'pass'
+        resource["auth/basic/#{DOMAIN}"].should_receive(:post).with(%({"username":"#{user}","password":"#{password}"}), :content_type => "application/json")
+
+        client.basic_authentication(DOMAIN, user, password)
       end
 
       context "#selenium_proxy" do
