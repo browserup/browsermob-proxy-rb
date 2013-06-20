@@ -52,7 +52,7 @@ module BrowserMob
             Rack::Server.new(:app => app, :Port => @port).start
           end
 
-          at_exit { Process.kill 'TERM', pid }
+          at_exit { Process.kill 'KILL', pid }
 
           poller = Selenium::WebDriver::SocketPoller.new("localhost", @port, 10)
 
