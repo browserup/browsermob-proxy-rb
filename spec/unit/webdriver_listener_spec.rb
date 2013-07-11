@@ -4,11 +4,11 @@ module BrowserMob
   module Proxy
 
     describe WebDriverListener do
-      let(:client)   { mock(Client) }
-      let(:driver)   { mock(Selenium::WebDriver::Driver, :current_url => 'http://foo') }
+      let(:client)   { double(Client) }
+      let(:driver)   { double(Selenium::WebDriver::Driver, :current_url => 'http://foo') }
       let(:listener) { WebDriverListener.new(client) }
-      let(:element)  { mock(Selenium::WebDriver::Element, :ref => "some-id")}
-      let(:har)      { mock(HAR::Archive) }
+      let(:element)  { double(Selenium::WebDriver::Element, :ref => "some-id")}
+      let(:har)      { double(HAR::Archive) }
       let(:url)      { "http://example.com" }
 
       it 'creates a new har on navigate.to' do

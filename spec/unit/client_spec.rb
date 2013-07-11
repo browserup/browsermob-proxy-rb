@@ -6,20 +6,20 @@ module BrowserMob
     DOMAIN = 'example.com'
 
     describe Client do
-      let(:resource)      { mock(RestClient::Resource) }
+      let(:resource)      { double(RestClient::Resource) }
       let(:client)        { Client.new(resource, "localhost", 9091) }
 
       before do
         {
-          "har"                  => mock("resource[har]"),
-          "har/pageRef"          => mock("resource[har/pageRef]"),
-          "whitelist"            => mock("resource[whitelist]"),
-          "blacklist"            => mock("resource[blacklist]"),
-          "limit"                => mock("resource[limit]"),
-          "headers"              => mock("resource[headers]"),
-          "auth/basic/#{DOMAIN}" => mock("resource[auth/basic/#{DOMAIN}]")
+          "har"                  => double("resource[har]"),
+          "har/pageRef"          => double("resource[har/pageRef]"),
+          "whitelist"            => double("resource[whitelist]"),
+          "blacklist"            => double("resource[blacklist]"),
+          "limit"                => double("resource[limit]"),
+          "headers"              => double("resource[headers]"),
+          "auth/basic/#{DOMAIN}" => double("resource[auth/basic/#{DOMAIN}]")
         }.each do |path, mock|
-          resource.stub!(:[]).with(path).and_return(mock)
+          resource.stub(:[]).with(path).and_return(mock)
         end
       end
 
