@@ -63,8 +63,9 @@ module BrowserMob
         end
 
         def url_for(page)
-          # use 0.0.0.0 to avoid default no-proxy rules on localhost
-          "http://0.0.0.0:#{@port}/#{page}"
+          # avoid default no-proxy rules on localhost
+          ip = Selenium::WebDriver::Platform.ip
+          "http://#{ip}:#{@port}/#{page}"
         end
       end
 
