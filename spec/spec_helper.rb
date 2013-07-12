@@ -3,7 +3,6 @@ require 'selenium-webdriver'
 require 'browsermob/proxy/webdriver_listener'
 require 'rack'
 
-$DEBUG = true
 RestClient.log = STDOUT
 
 module BrowserMob
