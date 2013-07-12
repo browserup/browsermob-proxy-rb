@@ -64,8 +64,8 @@ module BrowserMob
 
         def url_for(page)
           # avoid default no-proxy rules on localhost
-          ip = Selenium::WebDriver::Platform.ip
-          "http://#{ip}:#{@port}/#{page}"
+          host = ENV['TRAVIS'] ? Selenium::WebDriver::Platform.ip : '0.0.0.0'
+          "http://#{host}:#{@port}/#{page}"
         end
       end
 
