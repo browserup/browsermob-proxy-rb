@@ -70,8 +70,15 @@ module BrowserMob
         Selenium::WebDriver::Proxy.new(proxy_mapping)
       end
 
+      ##
+      # Set a list of URL regexes to whitelist
+      # Note that passed regexp/string should match string as a whole
+      # (i.e. if /example\.com/ is whitelisted "http://www.example.com" won't be allowed
+      # though if /.+example\.com" is whitelisted "http://www.example.com" will be allowed)
+      # @param regexp [Regexp, String, Array<String, Regexp>]   a regexp, string or an array of regexps/strings that urls should match to
+      # @param status_code [Integer]    the HTTP status code to return for URLs that do not match the whitelist
       def whitelist(regexp, status_code)
-        regex = Regexp === regexp ? regexp.source : regexp.to_s
+        regex = Array(regexp).map { |rx| Regexp === rx ? rx.source : rx.to_s }.join(',')
         @resource['whitelist'].put :regex => regex, :status => status_code
       end
 

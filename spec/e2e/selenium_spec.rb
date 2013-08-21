@@ -5,6 +5,8 @@ describe "Proxy + WebDriver" do
   let(:proxy) { new_proxy }
   let(:wait) { Selenium::WebDriver::Wait.new(:timeout => 10) }
 
+  let(:escaped_url) { 'http://0\.0\.0\.0:3001/1\.html' }
+
   let(:profile) {
     pr = Selenium::WebDriver::Firefox::Profile.new
     pr.proxy = proxy.selenium_proxy
@@ -44,9 +46,34 @@ describe "Proxy + WebDriver" do
     entry.request.headers.should_not be_empty
   end
 
-  it "should set whitelist and blacklist" do
-    proxy.whitelist(/example\.com/, 201)
-    proxy.blacklist(/bad\.com/, 404)
+  describe 'whitelist' do
+    it "allows access to urls in whitelist" do
+      proxy.whitelist(escaped_url, 404)
+      driver.get url_for('1.html')
+      wait.until { driver.title == '1' }
+    end
+
+    it "disallows access to urls outside whitelist" do
+      proxy.new_har('whitelist')
+      proxy.whitelist(escaped_url, 404)
+      driver.get url_for('2.html')
+      proxy.har.entries.first.response.status.should == 404
+    end
+  end
+
+  describe 'blacklist' do
+    it "disallows access to urls in blacklist" do
+      proxy.new_har('blacklist')
+      proxy.blacklist(escaped_url, 404)
+      driver.get url_for('1.html')
+      proxy.har.entries.first.response.status.should == 404
+    end
+
+    it "allows access to urls outside blacklist" do
+      proxy.blacklist(escaped_url, 404)
+      driver.get url_for('2.html')
+      wait.until { driver.title == '2' }
+    end
   end
 
   it "should set headers" do
