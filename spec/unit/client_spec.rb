@@ -84,11 +84,27 @@ module BrowserMob
         client.blacklist(%r[http://example.com], 401)
       end
 
-      it "sets the whitelist" do
-        resource['whitelist'].should_receive(:put).
-                              with(:regex => "http://example.com", :status => 401)
+      describe 'whitelist' do
+        it "supports a string" do
+          resource['whitelist'].should_receive(:put).
+                                with(:regex => 'https?://example\.com', :status => 401)
 
-        client.whitelist(%r[http://example.com], 401)
+          client.whitelist('https?://example\.com', 401)
+        end
+
+        it "supports a regexp" do
+          resource['whitelist'].should_receive(:put).
+                                with(:regex => 'https?://example\.com', :status => 401)
+
+          client.whitelist(%r{https?://example\.com}, 401)
+        end
+
+        it "supports an array of regexps and strings" do
+          resource['whitelist'].should_receive(:put).
+                                with(:regex => 'http://example\.com/1/.+,http://example\.com/2/.+', :status => 401)
+
+          client.whitelist([%r{http://example\.com/1/.+}, 'http://example\.com/2/.+'], 401)
+        end
       end
 
       it "sets the :downstream_kbps limit" do
