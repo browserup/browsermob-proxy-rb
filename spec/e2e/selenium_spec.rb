@@ -5,7 +5,7 @@ describe "Proxy + WebDriver" do
   let(:proxy) { new_proxy }
   let(:wait) { Selenium::WebDriver::Wait.new(:timeout => 10) }
 
-  let(:escaped_url) { 'http://0\.0\.0\.0:3001/1\.html' }
+  let(:escaped_url) { Regexp.quote(url_for('1.html')) }
 
   let(:profile) {
     pr = Selenium::WebDriver::Firefox::Profile.new
