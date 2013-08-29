@@ -88,4 +88,12 @@ describe "Proxy + WebDriver" do
     proxy.limit(:downstream_kbps => 100, :upstream_kbps => 100, :latency => 2)
   end
 
+  it 'should remap given DNS hosts' do
+    proxy.remap_dns_hosts('plus.google.com' => '127.0.0.2')
+    uri = URI(url_for('1.html'))
+    uri.host = 'plus.google.com'
+    driver.get uri
+    wait.until { driver.title == '1' }
+  end
+
 end
