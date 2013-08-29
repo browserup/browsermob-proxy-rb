@@ -70,13 +70,17 @@ module BrowserMob
         Selenium::WebDriver::Proxy.new(proxy_mapping)
       end
 
-      ##
+      #
       # Set a list of URL regexes to whitelist
+      #
       # Note that passed regexp/string should match string as a whole
       # (i.e. if /example\.com/ is whitelisted "http://www.example.com" won't be allowed
       # though if /.+example\.com" is whitelisted "http://www.example.com" will be allowed)
+      #
       # @param regexp [Regexp, String, Array<String, Regexp>]   a regexp, string or an array of regexps/strings that urls should match to
       # @param status_code [Integer]    the HTTP status code to return for URLs that do not match the whitelist
+      #
+
       def whitelist(regexp, status_code)
         regex = Array(regexp).map { |rx| Regexp === rx ? rx.source : rx.to_s }.join(',')
         @resource['whitelist'].put :regex => regex, :status => status_code
@@ -97,12 +101,15 @@ module BrowserMob
         @resource["auth/basic/#{domain}"].post data.to_json, :content_type => "application/json"
       end
 
-      ##
+      #
       # Override normal DNS lookups (remap the given hosts with the associated IP address).
       # Each invocation of the method will add given hosts to existing BrowserMob's DNS cache
       # instead of overriding it.
+      #
       # @example remap_dns_hosts('example.com' => '1.2.3.4')
       # @param hash [Hash] a hash with domains as keys and IPs as values
+      #
+
       def remap_dns_hosts(hash)
         @resource['hosts'].post hash.to_json, content_type: 'application/json'
       end

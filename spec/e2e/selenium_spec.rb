@@ -46,8 +46,10 @@ describe "Proxy + WebDriver" do
 
   describe 'whitelist' do
     it "allows access to urls in whitelist" do
-      proxy.whitelist(escaped_url, 404)
-      driver.get url_for('1.html')
+      dest = url_for('1.html')
+
+      proxy.whitelist(Regexp.quote(dest), 404)
+      driver.get dest
       wait.until { driver.title == '1' }
     end
 
@@ -60,7 +62,6 @@ describe "Proxy + WebDriver" do
   end
 
   describe 'blacklist' do
-
     it "disallows access to urls in blacklist" do
       proxy.new_har('blacklist')
 
@@ -88,12 +89,13 @@ describe "Proxy + WebDriver" do
   end
 
   it 'should remap given DNS hosts' do
-    host = '1.2.3.4'
-    proxy.remap_dns_hosts(host => '127.0.0.2')
     uri = URI(url_for('1.html'))
-    uri.host = host
+
+    proxy.remap_dns_hosts('test.example.com' => uri.host)
+
+    uri.host = 'test.example.com'
     driver.get uri
+
     wait.until { driver.title == '1' }
-    driver.find_element(:link_text => "2").click
   end
 end
