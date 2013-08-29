@@ -5,8 +5,6 @@ describe "Proxy + WebDriver" do
   let(:proxy) { new_proxy }
   let(:wait) { Selenium::WebDriver::Wait.new(:timeout => 10) }
 
-  let(:escaped_url) { Regexp.quote(url_for('1.html')) }
-
   let(:profile) {
     pr = Selenium::WebDriver::Firefox::Profile.new
     pr.proxy = proxy.selenium_proxy
@@ -62,16 +60,21 @@ describe "Proxy + WebDriver" do
   end
 
   describe 'blacklist' do
+
     it "disallows access to urls in blacklist" do
       proxy.new_har('blacklist')
-      proxy.blacklist(escaped_url, 404)
-      driver.get url_for('1.html')
+
+      dest = url_for('1.html')
+      proxy.blacklist(Regexp.quote(dest), 404)
+      driver.get dest
+
       proxy.har.entries.first.response.status.should == 404
     end
 
     it "allows access to urls outside blacklist" do
-      proxy.blacklist(escaped_url, 404)
+      proxy.blacklist('foo\.bar\.com', 404)
       driver.get url_for('2.html')
+
       wait.until { driver.title == '2' }
     end
   end
