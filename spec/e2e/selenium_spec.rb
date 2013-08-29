@@ -88,14 +88,4 @@ describe "Proxy + WebDriver" do
     proxy.limit(:downstream_kbps => 100, :upstream_kbps => 100, :latency => 2)
   end
 
-  it 'should remap given DNS hosts' do
-    uri = URI(url_for('1.html'))
-
-    proxy.remap_dns_hosts('test.example.com' => uri.host)
-
-    uri.host = 'test.example.com'
-    driver.get uri
-
-    wait.until { driver.title == '1' }
-  end
 end

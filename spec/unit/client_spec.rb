@@ -17,8 +17,7 @@ module BrowserMob
           "blacklist"            => double("resource[blacklist]"),
           "limit"                => double("resource[limit]"),
           "headers"              => double("resource[headers]"),
-          "auth/basic/#{DOMAIN}" => double("resource[auth/basic/#{DOMAIN}]"),
-          "hosts"                => double("resource[hosts]")
+          "auth/basic/#{DOMAIN}" => double("resource[auth/basic/#{DOMAIN}]")
         }.each do |path, mock|
           resource.stub(:[]).with(path).and_return(mock)
         end
@@ -152,13 +151,6 @@ module BrowserMob
         resource["auth/basic/#{DOMAIN}"].should_receive(:post).with(%({"username":"#{user}","password":"#{password}"}), :content_type => "application/json")
 
         client.basic_authentication(DOMAIN, user, password)
-      end
-
-      it 'sets mapped dns hosts' do
-        resource['hosts'].should_receive(:post).with(%({"#{DOMAIN}":"1.2.3.4"}),
-                                                     :content_type => "application/json")
-
-        client.remap_dns_hosts(DOMAIN => '1.2.3.4')
       end
 
       context "#selenium_proxy" do
