@@ -55,7 +55,7 @@ describe "Proxy + WebDriver" do
 
     it "disallows access to urls outside whitelist" do
       proxy.new_har('whitelist')
-      proxy.whitelist(escaped_url, 404)
+      proxy.whitelist('foo\.bar\.com', 404)
       driver.get url_for('2.html')
       proxy.har.entries.first.response.status.should == 404
     end
