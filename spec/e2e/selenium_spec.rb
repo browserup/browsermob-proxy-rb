@@ -89,9 +89,12 @@ describe "Proxy + WebDriver" do
   end
 
   it 'should remap given DNS hosts' do
-    proxy.remap_dns_hosts('plus.google.com' => '127.0.0.2')
-    uri = URI(url_for('1.html'))
-    uri.host = 'plus.google.com'
+    uri = URI.parse url_for('1.html')
+    host = 'plus.google.com'
+
+    proxy.remap_dns_hosts(host => uri.host)
+    uri.host = host
+
     driver.get uri
     wait.until { driver.title == '1' }
   end
