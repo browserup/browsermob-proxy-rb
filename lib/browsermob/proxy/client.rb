@@ -102,6 +102,37 @@ module BrowserMob
       end
 
       #
+      # Specify timeouts that will be used by a proxy (see README of browsermob-proxy itself for more about what they mean)
+      #
+      # @param timeouts [Hash]   options that specify desired timeouts
+      # @option timeouts [Numeric] :request_timeout    request timeout in seconds
+      # @option timeouts [Numeric] :read_timeout       read timeout in seconds
+      # @option timeouts [Numeric] :connection_timeout connection timeout
+      # @option timeouts [Numeric] :dns_cache_timeout  dns cache timeout
+      #
+
+      def timeouts(timeouts = {})
+        mapping = {
+          request_timeout: :requestTimeout,
+          read_timeout: :readTimeout,
+          connection_timeout: :connectionTimeout,
+          dns_cache_timeout: :dnsCacheTimeout
+        }
+        valid_keys = mapping.keys
+        invalid_keys = timeouts.keys - valid_keys
+        unless invalid_keys.empty?
+          raise ArgumentError, "invalid keys: #{invalid_keys}, should belong to: #{valid_keys}"
+        end
+
+        passed_timeouts = {}
+        timeouts.each_key do |timeout_key|
+          passed_key = mapping[timeout_key]
+          passed_timeouts[passed_key] = timeouts[timeout_key] * 1000
+        end
+        @resource['timeout'].put passed_timeouts
+      end
+
+      #
       # Override normal DNS lookups (remap the given hosts with the associated IP address).
       #
       # Each invocation of the method will add given hosts to existing BrowserMob's DNS cache
