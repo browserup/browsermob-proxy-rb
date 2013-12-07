@@ -44,6 +44,33 @@ describe "Proxy + WebDriver" do
     entry.request.headers.should_not be_empty
   end
 
+  it "should fetch a HAR and capture content" do
+    proxy.new_har("2", :capture_content => true)
+
+    driver.get url_for("2.html")
+    wait.until { driver.title == '2' }
+
+    entry = proxy.har.entries.first
+    entry.should_not be_nil
+
+    entry.response.content.size.should be > 0
+    entry.response.content.text.should == File.read("spec/fixtures/2.html")
+  end
+
+  it "should fetch a HAR and capture binary content as Base64 encoded string" do
+    proxy.new_har("binary", :capture_binary_content => true)
+
+    driver.get url_for("empty.gif")
+
+    entry = proxy.har.entries.first
+    entry.should_not be_nil
+
+    entry.response.content.size.should be > 0
+    require 'base64'
+    expected_content = Base64.encode64(File.read("spec/fixtures/empty.gif")).strip
+    entry.response.content.text.should == expected_content
+  end
+
   describe 'whitelist' do
     it "allows access to urls in whitelist" do
       dest = url_for('1.html')
