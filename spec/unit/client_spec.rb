@@ -80,6 +80,25 @@ module BrowserMob
         client.new_har(:capture_content => true).should be_nil
       end
 
+      it "turns on content capture and binary content capture when given a name" do
+        resource['har'].should_receive(:put).
+                        with(:initialPageRef => "foo",
+                             :captureContent => true,
+                             :captureBinaryContent => true).
+                        and_return('')
+
+        client.new_har("foo", :capture_binary_content => true).should be_nil
+      end
+
+      it "turns on content capture and binary content capture when not given a name" do
+        resource['har'].should_receive(:put).
+                        with(:captureContent => true,
+                             :captureBinaryContent => true).
+                        and_return('')
+
+        client.new_har(:capture_binary_content => true).should be_nil
+      end
+
       it "gets the current har" do
         resource['har'].should_receive(:get).
                         and_return(fixture("google.har"))

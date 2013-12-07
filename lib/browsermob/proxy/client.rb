@@ -32,6 +32,7 @@ module BrowserMob
       #   client.new_har("page-name", :capture_headers => true)
       #   client.new_har(:capture_headers => true)
       #   client.new_har(:capture_content => true)
+      #   client.new_har(:capture_binary_content => true)
       #
 
       def new_har(ref = nil, opts = {})
@@ -46,6 +47,10 @@ module BrowserMob
         params[:captureHeaders] = true if opts[:capture_headers]
         params[:captureContent] = true if opts[:capture_content]
 
+        if opts[:capture_binary_content]
+          params[:captureContent] = true
+          params[:captureBinaryContent] = true
+        end
 
         previous = @resource["har"].put params
         HAR::Archive.from_string(previous) unless previous.empty?
