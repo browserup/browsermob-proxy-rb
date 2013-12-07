@@ -44,6 +44,19 @@ describe "Proxy + WebDriver" do
     entry.request.headers.should_not be_empty
   end
 
+  it "should fetch a HAR and capture content" do
+    proxy.new_har("2", :capture_content => true)
+
+    driver.get url_for("2.html")
+    wait.until { driver.title == '2' }
+
+    entry = proxy.har.entries.first
+    entry.should_not be_nil
+
+    entry.response.content.size.should be > 0
+    entry.response.content.text.should_not be_empty
+  end
+
   describe 'whitelist' do
     it "allows access to urls in whitelist" do
       dest = url_for('1.html')

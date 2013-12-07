@@ -31,6 +31,7 @@ module BrowserMob
       #   client.new_har("page-name")
       #   client.new_har("page-name", :capture_headers => true)
       #   client.new_har(:capture_headers => true)
+      #   client.new_har(:capture_content => true)
       #
 
       def new_har(ref = nil, opts = {})
@@ -43,6 +44,7 @@ module BrowserMob
 
         params[:initialPageRef] = ref if ref
         params[:captureHeaders] = true if opts[:capture_headers]
+        params[:captureContent] = true if opts[:capture_content]
 
 
         previous = @resource["har"].put params
