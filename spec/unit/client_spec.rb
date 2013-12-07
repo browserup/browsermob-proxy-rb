@@ -64,6 +64,22 @@ module BrowserMob
         client.new_har(:capture_headers => true).should be_nil
       end
 
+      it "turns on content capture when given a name" do
+        resource['har'].should_receive(:put).
+                        with(:initialPageRef => "foo", :captureContent => true).
+                        and_return('')
+
+        client.new_har("foo", :capture_content => true).should be_nil
+      end
+
+      it "turns on header capture when not given a name" do
+        resource['har'].should_receive(:put).
+                        with(:captureContent => true).
+                        and_return('')
+
+        client.new_har(:capture_content => true).should be_nil
+      end
+
       it "gets the current har" do
         resource['har'].should_receive(:get).
                         and_return(fixture("google.har"))
