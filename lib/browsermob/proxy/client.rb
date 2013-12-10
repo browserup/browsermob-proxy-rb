@@ -86,9 +86,17 @@ module BrowserMob
         @resource['whitelist'].put :regex => regex, :status => status_code
       end
 
+      def clear_whitelist
+        @resource['whitelist'].delete
+      end
+
       def blacklist(regexp, status_code)
         regex = Regexp === regexp ? regexp.source : regexp.to_s
         @resource['blacklist'].put :regex => regex, :status => status_code
+      end
+
+      def clear_blacklist
+        @resource['blacklist'].delete
       end
 
       def header(hash)
