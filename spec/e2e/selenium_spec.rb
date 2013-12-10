@@ -86,6 +86,15 @@ describe "Proxy + WebDriver" do
       driver.get url_for('2.html')
       proxy.har.entries.first.response.status.should == 404
     end
+
+    it "can be cleared" do
+      proxy.new_har('whitelist')
+      proxy.whitelist('foo\.bar\.com', 404)
+
+      proxy.clear_whitelist
+      driver.get url_for('2.html')
+      proxy.har.entries.first.response.status.should_not == 404
+    end
   end
 
   describe 'blacklist' do
@@ -104,6 +113,18 @@ describe "Proxy + WebDriver" do
       driver.get url_for('2.html')
 
       wait.until { driver.title == '2' }
+    end
+
+    it "can be cleared" do
+      proxy.new_har('blacklist')
+
+      dest = url_for('1.html')
+      proxy.blacklist(Regexp.quote(dest), 404)
+
+      proxy.clear_blacklist
+      driver.get dest
+
+      proxy.har.entries.first.response.status.should_not == 404
     end
   end
 

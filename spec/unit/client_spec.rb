@@ -120,6 +120,12 @@ module BrowserMob
         client.blacklist(%r[http://example.com], 401)
       end
 
+      it "clears the blacklist" do
+        resource['blacklist'].should_receive(:delete)
+
+        client.clear_blacklist
+      end
+
       describe 'whitelist' do
         it "supports a string" do
           resource['whitelist'].should_receive(:put).
@@ -140,6 +146,13 @@ module BrowserMob
                                 with(:regex => 'http://example\.com/1/.+,http://example\.com/2/.+', :status => 401)
 
           client.whitelist([%r{http://example\.com/1/.+}, 'http://example\.com/2/.+'], 401)
+        end
+
+        it "clears the whitelist" do
+          resource['whitelist'].should_receive(:delete)
+
+          client.clear_whitelist
+
         end
       end
 
