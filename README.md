@@ -65,7 +65,6 @@ The HAR gem includes a HAR viewer. After running the code above, you can view th
 See also
 --------
 
-* http://proxy.browsermob.com/
 * https://github.com/lightbody/browsermob-proxy
 
 Note on Patches/Pull Requests
