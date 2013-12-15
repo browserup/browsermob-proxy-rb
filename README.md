@@ -38,7 +38,7 @@ driver.quit
 
 With event listener:
 
-``` ruby
+```ruby
 require 'selenium/webdriver'
 require 'browsermob/proxy'
 require 'browsermob/proxy/webdriver_listener'
@@ -65,6 +65,7 @@ The HAR gem includes a HAR viewer. After running the code above, you can view th
 See also
 --------
 
+* http://bmp.lightbody.net/
 * https://github.com/lightbody/browsermob-proxy
 
 Note on Patches/Pull Requests
