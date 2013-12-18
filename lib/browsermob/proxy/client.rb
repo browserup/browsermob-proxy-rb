@@ -127,25 +127,25 @@ module BrowserMob
       # @option timeouts [Numeric] :dns_cache  dns cache timeout
       #
 
+      TIMEOUTS = {
+        request: :requestTimeout,
+        read: :readTimeout,
+        connection: :connectionTimeout,
+        dns_cache: :dnsCacheTimeout
+      }
+
       def timeouts(timeouts = {})
-        mapping = {
-          request: :requestTimeout,
-          read: :readTimeout,
-          connection: :connectionTimeout,
-          dns_cache: :dnsCacheTimeout
-        }
-        valid_keys = mapping.keys
-        invalid_keys = timeouts.keys - valid_keys
-        unless invalid_keys.empty?
-          raise ArgumentError, "invalid keys: #{invalid_keys}, should belong to: #{valid_keys}"
+        params = {}
+
+        timeouts.each do |key, value|
+          unless TIMEOUTS.member?(key)
+            raise ArgumentError, "invalid key: #{key.inspect}, should belong to: #{TIMEOUTS.keys.inspect}"
+          end
+
+          params[TIMEOUTS[key]] = (value * 1000).to_i
         end
 
-        correct_timeouts = {}
-        timeouts.each_pair do |timeout_key, timeout|
-          passed_key = mapping[timeout_key]
-          correct_timeouts[passed_key] = (timeout * 1000).to_i
-        end
-        @resource['timeout'].put correct_timeouts
+        @resource['timeout'].put params
       end
 
       #

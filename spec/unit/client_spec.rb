@@ -204,21 +204,23 @@ module BrowserMob
 
       describe 'timeouts' do
         it 'supports valid options' do
-          resource['timeout'].should_receive(:put)
-                             .with(:requestTimeout => 1,
-                                   :readTimeout => 2000,
-                                   :connectionTimeout => 3000,
-                                   :dnsCacheTimeout => 6_000_000
-                              )
-          client.timeouts(:request => 0.001,
-                          :read => 2,
-                          :connection => 3,
-                          :dns_cache => 6000
-                         )
+          resource['timeout'].should_receive(:put).with(
+            :requestTimeout    => 1,
+            :readTimeout       => 2000,
+            :connectionTimeout => 3000,
+            :dnsCacheTimeout   => 6_000_000
+          )
+
+          client.timeouts(
+            :request    => 0.001,
+            :read       => 2,
+            :connection => 3,
+            :dns_cache  => 6000
+          )
         end
 
         it 'raises ArgumentError when invalid options are passed' do
-          expect { client.timeouts(:invalid => 2) }.to raise_error(ArgumentError, "invalid keys: [:invalid], should belong to: [:request, :read, :connection, :dns_cache]")
+          expect { client.timeouts(:invalid => 2) }.to raise_error(ArgumentError, "invalid key: :invalid, should belong to: [:request, :read, :connection, :dns_cache]")
         end
       end
 
