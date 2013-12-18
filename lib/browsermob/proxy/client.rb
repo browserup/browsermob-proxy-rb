@@ -116,6 +116,13 @@ module BrowserMob
         @resource["auth/basic/#{domain}"].post data.to_json, :content_type => "application/json"
       end
 
+      TIMEOUTS = {
+        request: :requestTimeout,
+        read: :readTimeout,
+        connection: :connectionTimeout,
+        dns_cache: :dnsCacheTimeout
+      }
+
       #
       # Specify timeouts that will be used by a proxy
       # (see README of browsermob-proxy itself for more info about what they mean)
@@ -126,13 +133,6 @@ module BrowserMob
       # @option timeouts [Numeric] :connection connection timeout
       # @option timeouts [Numeric] :dns_cache  dns cache timeout
       #
-
-      TIMEOUTS = {
-        request: :requestTimeout,
-        read: :readTimeout,
-        connection: :connectionTimeout,
-        dns_cache: :dnsCacheTimeout
-      }
 
       def timeouts(timeouts = {})
         params = {}
