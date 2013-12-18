@@ -128,6 +128,12 @@ describe "Proxy + WebDriver" do
     end
   end
 
+  it 'should set timeouts' do
+    proxy.timeouts(read: 0.001)
+    driver.get url_for('slow')
+    wait.until { driver.title == 'Problem loading page' } # This title appears in Firefox
+  end
+
   it "should set headers" do
     proxy.headers('Content-Type' => "text/html")
   end

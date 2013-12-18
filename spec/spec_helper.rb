@@ -9,7 +9,7 @@ module BrowserMob
   module Proxy
     module SpecHelper
       def self.httpd
-        @httpd ||= HttpServer.new(Rack::File.new(fixture_dir))
+        @httpd ||= HttpServer.new(SpecApp.new(Rack::File.new(fixture_dir)))
       end
 
       def self.fixture_dir
@@ -68,6 +68,22 @@ module BrowserMob
         end
       end
 
+      class SpecApp
+        def initialize(app)
+          @app = app
+        end
+
+        def call(env)
+          case env['REQUEST_PATH']
+          when '/slow'
+            sleep 0.1
+            [200, {}, []]
+          else
+            @app.call(env)
+          end
+        end
+
+      end
     end
   end
 end
