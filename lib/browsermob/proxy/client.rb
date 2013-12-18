@@ -26,8 +26,7 @@ module BrowserMob
       end
 
       #
-      # Examples:
-      #
+      # @example
       #   client.new_har("page-name")
       #   client.new_har("page-name", :capture_headers => true)
       #   client.new_har(:capture_headers => true)
@@ -154,7 +153,8 @@ module BrowserMob
       # Each invocation of the method will add given hosts to existing BrowserMob's DNS cache
       # instead of overriding it.
       #
-      # @example remap_dns_hosts('example.com' => '1.2.3.4')
+      # @example
+      #   remap_dns_hosts('example.com' => '1.2.3.4')
       # @param hash [Hash] a hash with domains as keys and IPs as values
       #
 
