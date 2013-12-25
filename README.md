@@ -52,7 +52,27 @@ driver.quit
 
 proxy_listener.hars #=> [#<HAR::Archive:0x-27066c42d7e75fa6>, #<HAR::Archive:0x-d7e75fa627066c42>]
 proxy.close
+```
 
+Parallel usage of a single Browsermob server (it will start server process only if it hasn't already been started):
+
+```ruby
+BROWSERMOB_SERVER_PORT = 8080
+
+begin
+  TCPSocket.new("127.0.0.1", BROWSERMOB_SERVER_PORT).close
+rescue
+  server_location = "/path/to/download/browsermob-proxy"
+  browsermob_server = BrowserMob::Proxy::Server.new(server_location, port: BROWSERMOB_SERVER_PORT, stop_at_exit: false)
+  browsermob_server.start
+end
+
+server_url = BrowserMob::Proxy::Server.form_server_url(BROWSERMOB_SERVER_PORT)
+proxy = BrowserMob::Proxy::Client.from server_url
+
+at_exit do
+  proxy.close
+end
 ```
 
 Viewing HARs
