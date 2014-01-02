@@ -1,6 +1,7 @@
 rvm:
   - 1.9.3
   - 2.0.0
+  - 2.1.0
 before_script:
   - sudo apt-get install -y unzip
   - curl -k -L -O https://s3-us-west-1.amazonaws.com/lightbody-bmp/browsermob-proxy-2.0-beta-9-bin.zip
