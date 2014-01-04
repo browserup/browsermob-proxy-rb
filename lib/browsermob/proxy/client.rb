@@ -105,6 +105,15 @@ module BrowserMob
         @resource['blacklist'].delete
       end
 
+      def rewrite(match_regex, replace)
+        regex = Regexp === match_regex ? match_regex.source : match_regex.to_s
+        @resource['rewrite'].put :matchRegex => regex, :replace => replace
+      end
+
+      def clear_rewrites
+        @resource['rewrite'].delete
+      end
+
       def header(hash)
         @resource['headers'].post hash.to_json, :content_type => "application/json"
       end

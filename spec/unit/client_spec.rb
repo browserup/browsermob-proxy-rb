@@ -19,7 +19,8 @@ module BrowserMob
           "headers"              => double("resource[headers]"),
           "auth/basic/#{DOMAIN}" => double("resource[auth/basic/#{DOMAIN}]"),
           "hosts"                => double("resource[hosts]"),
-          "timeout"              => double("resource[timeout]")
+          "timeout"              => double("resource[timeout]"),
+          "rewrite"              => double("resource[rewrite]")
         }.each do |path, mock|
           resource.stub(:[]).with(path).and_return(mock)
         end
@@ -229,6 +230,19 @@ module BrowserMob
                                                      :content_type => "application/json")
 
         client.remap_dns_hosts(DOMAIN => '1.2.3.4')
+      end
+
+      it 'sets a rewrite rule' do
+        resource['rewrite'].should_receive(:put).
+          with(:matchRegex => 'old.com', :replace => 'new.com')
+
+        client.rewrite(%r[old.com], 'new.com')
+      end
+
+      it 'clears the rewrite rules' do
+        resource['rewrite'].should_receive(:delete)
+
+        client.clear_rewrites
       end
 
       context "#selenium_proxy" do
