@@ -232,18 +232,33 @@ module BrowserMob
         client.remap_dns_hosts(DOMAIN => '1.2.3.4')
       end
 
-      it 'sets a rewrite rule' do
-        resource['rewrite'].should_receive(:put).
-          with(:matchRegex => 'old.com', :replace => 'new.com')
+      describe 'rewrite rules' do
 
-        client.rewrite(%r[old.com], 'new.com')
+        context 'when using a regular expression' do
+          it 'sets a rewrite rule' do
+            resource['rewrite'].should_receive(:put).
+              with(:matchRegex => 'old\.com', :replace => 'new.com')
+
+            client.rewrite('old\.com', 'new.com')
+          end
+        end
+
+        context 'when using a string' do
+          it 'sets a rewrite rule' do
+            resource['rewrite'].should_receive(:put).
+              with(:matchRegex => 'old\.com', :replace => 'new.com')
+
+            client.rewrite(%r{old\.com}, 'new.com')
+          end
+        end
+
+        it 'clears the rewrite rules' do
+          resource['rewrite'].should_receive(:delete)
+
+          client.clear_rewrites
+        end
       end
 
-      it 'clears the rewrite rules' do
-        resource['rewrite'].should_receive(:delete)
-
-        client.clear_rewrites
-      end
 
       context "#selenium_proxy" do
         it "defaults to HTTP proxy only" do
