@@ -128,6 +128,29 @@ describe "Proxy + WebDriver" do
     end
   end
 
+  describe 'rewrite rules' do
+
+    let(:uri) { URI.parse url_for('1.html') }
+
+    before do
+      proxy.rewrite(%r{1\.html}, '2.html')
+    end
+
+    it 'fetches the rewritten url' do
+      driver.get uri
+
+      wait.until { driver.title == '2' }
+    end
+
+    it 'can be cleared' do
+      proxy.clear_rewrites
+      driver.get uri
+
+      wait.until { driver.title == '1' }
+    end
+
+  end
+
   it 'should set timeouts' do
     proxy.timeouts(read: 0.001)
     driver.get url_for('slow')
