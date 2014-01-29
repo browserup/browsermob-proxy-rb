@@ -25,7 +25,7 @@ module BrowserMob
 
       def start
         @process.start
-        sleep 0.1 until listening?
+        sleep 0.1 until listening? && initialized?
 
         pid = Process.pid
         at_exit { stop if Process.pid == pid }
@@ -52,6 +52,13 @@ module BrowserMob
         TCPSocket.new("127.0.0.1", port).close
         true
       rescue
+        false
+      end
+
+      def initialized?
+        RestClient.get("#{url}/proxy")
+        true
+      rescue RestClient::Exception
         false
       end
     end # Server
