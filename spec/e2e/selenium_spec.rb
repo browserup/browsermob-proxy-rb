@@ -105,7 +105,9 @@ describe "Proxy + WebDriver" do
       proxy.blacklist(Regexp.quote(dest), 404)
       driver.get dest
 
-      proxy.har.entries.first.response.status.should == 404
+      entry = proxy.har.entries.find { |e| e.request.url == dest }
+      entry.should_not be_nil
+      entry.response.status.should == 404
     end
 
     it "allows access to urls outside blacklist" do
@@ -124,7 +126,9 @@ describe "Proxy + WebDriver" do
       proxy.clear_blacklist
       driver.get dest
 
-      proxy.har.entries.first.response.status.should_not == 404
+      entry = proxy.har.entries.find { |e| e.request.url == dest }
+      entry.should_not be_nil
+      entry.response.status.should_not == 404
     end
   end
 
