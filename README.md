@@ -15,7 +15,7 @@ Manually:
 require 'selenium/webdriver'
 require 'browsermob/proxy'
 
-server = BrowserMob::Proxy::Server.new("/path/to/download/browsermob-proxy") #=> #<BrowserMob::Proxy::Server:0x000001022c6ea8 ...>
+server = BrowserMob::Proxy::Server.new("/path/to/downloads/browsermob-proxy/bin/browsermob-proxy") #=> #<BrowserMob::Proxy::Server:0x000001022c6ea8 ...>
 server.start
 
 proxy = server.create_proxy #=> #<BrowserMob::Proxy::Client:0x0000010224bdc0 ...>
