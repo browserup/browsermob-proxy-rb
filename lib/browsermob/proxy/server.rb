@@ -54,7 +54,9 @@ module BrowserMob
       private
 
       def create_process
-        process = ChildProcess.new(@path, "--port", @port.to_s)
+        process        = ChildProcess.new(@path, "--port", @port.to_s)
+        process.leader = true
+
         process.io.inherit! if @log
 
         process
