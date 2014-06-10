@@ -17,6 +17,20 @@ describe "Proxy + WebDriver" do
     proxy.close
   }
 
+  describe 'request interceptor' do
+    it "modifies request" do
+      proxy.new_har("1", :capture_headers => true)
+      proxy.request_interceptor = 'request.getMethod().setHeader("foo", "bar");'
+
+      driver.get url_for("1.html")
+      wait.until { driver.title == '1' }
+
+      entry = proxy.har.entries.first
+      header = entry.request.headers.find { |h| h['name'] == "foo" }
+      header['value'].should == "bar"
+    end
+  end
+
   it "should fetch a HAR" do
     proxy.new_har("1")
     driver.get url_for("1.html")
