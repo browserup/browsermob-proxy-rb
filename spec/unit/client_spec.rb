@@ -20,7 +20,9 @@ module BrowserMob
           "auth/basic/#{DOMAIN}" => double("resource[auth/basic/#{DOMAIN}]"),
           "hosts"                => double("resource[hosts]"),
           "timeout"              => double("resource[timeout]"),
-          "rewrite"              => double("resource[rewrite]")
+          "rewrite"              => double("resource[rewrite]"),
+          "interceptor/request"  => double("resource[interceptor/request]"),
+          "interceptor/response"  => double("resource[interceptor/response]")
         }.each do |path, mock|
           resource.stub(:[]).with(path).and_return(mock)
         end
@@ -126,6 +128,16 @@ module BrowserMob
         resource['blacklist'].should_receive(:delete)
 
         client.clear_blacklist
+      end
+
+      it "creates request interceptor" do
+        resource['interceptor/request'].should_receive(:post).with("foo", :content_type => "text/plain")
+        client.request_interceptor = "foo"
+      end
+
+      it "creates response interceptor" do
+        resource['interceptor/response'].should_receive(:post).with("foo", :content_type => "text/plain")
+        client.response_interceptor = "foo"
       end
 
       describe 'whitelist' do
