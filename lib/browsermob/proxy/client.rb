@@ -198,6 +198,14 @@ module BrowserMob
       def close
         @resource.delete
       end
+
+      def request_interceptor=(data)
+        @resource['interceptor/request'].post data, :content_type => "text/plain"
+      end
+
+      def response_interceptor=(data)
+        @resource['interceptor/response'].post data, :content_type => "text/plain"
+      end
     end # Client
 
   end # Proxy

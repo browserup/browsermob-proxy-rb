@@ -21,6 +21,8 @@ module BrowserMob
 
         @new_har_opts = {}
         @new_har_opts[:capture_headers] = true if opts[:capture_headers]
+        @new_har_opts[:capture_content] = true if opts[:capture_content]
+        @new_har_opts[:capture_binary_content] = true if opts[:capture_binary_content]
       end
 
       def reset
