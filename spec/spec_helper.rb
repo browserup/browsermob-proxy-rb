@@ -82,7 +82,36 @@ module BrowserMob
             @app.call(env)
           end
         end
+      end
+    end
 
+    module ServerSpecHelper
+      def run_in_isolation
+        # See http://stackoverflow.com/a/1076445/841064
+        read, write = IO.pipe
+
+        pid = fork do
+          read.close
+          ChildProcess.close_on_exec(write)
+          result = yield
+          Marshal.dump(result, write)
+          exit
+        end
+
+        write.close
+        result = read.read
+        Process.wait(pid)
+        raise 'child failed' if result.empty?
+        Marshal.load(result)
+      end
+
+      def process_alive?(pid)
+        begin
+          Process.kill(0, pid)
+          true
+        rescue Errno::ESRCH
+          false
+        end
       end
     end
   end
@@ -90,5 +119,6 @@ end
 
 RSpec.configure do |c|
   c.include(BrowserMob::Proxy::SpecHelper)
+  c.include(BrowserMob::Proxy::ServerSpecHelper)
   c.after(:suite) { $_bm_server.stop if $_bm_server }
 end

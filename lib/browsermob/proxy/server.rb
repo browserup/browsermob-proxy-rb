@@ -5,7 +5,11 @@ module BrowserMob
   module Proxy
 
     class Server
-      attr_reader :port
+      attr_reader :port, :url, :process
+
+      def self.form_server_url(port)
+        "http://localhost:#{port}"
+      end
 
       #
       # Create a new server instance
@@ -24,6 +28,8 @@ module BrowserMob
         @port    = Integer(opts[:port] || 8080)
         @timeout = Integer(opts[:timeout] || 10)
         @log     = !!opts[:log]
+        @stop_at_exit = (opts[:stop_at_exit].nil?) ? true : opts[:stop_at_exit]
+        @url = self.class.form_server_url(@port)
 
         @process = create_process
       end
@@ -33,14 +39,12 @@ module BrowserMob
 
         wait_for_startup
 
-        pid = Process.pid
-        at_exit { stop if Process.pid == pid }
+        if @stop_at_exit
+          pid = Process.pid
+          at_exit { stop if Process.pid == pid }
+        end
 
         self
-      end
-
-      def url
-        "http://localhost:#{port}"
       end
 
       def create_proxy
