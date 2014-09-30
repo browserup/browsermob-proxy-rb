@@ -4,13 +4,16 @@ module BrowserMob
     class Client
       attr_reader :host, :port
 
-      def self.from(server_url)
+      def self.from(server_url, port = nil)
         # ActiveSupport may define Object#load, so we can't use MultiJson.respond_to? here.
         sm = MultiJson.singleton_methods.map { |e| e.to_sym }
         decode_method = sm.include?(:load) ? :load : :decode
 
+        new_proxy_url = URI.join(server_url, "proxy")
+        new_proxy_url.query = "port=#{port}" if port
+
         port = MultiJson.send(decode_method,
-          RestClient.post(URI.join(server_url, "proxy").to_s, '')
+          RestClient.post(new_proxy_url.to_s, '')
         ).fetch('port')
 
         uri = URI.parse(File.join(server_url, "proxy", port.to_s))
