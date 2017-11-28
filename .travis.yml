@@ -6,7 +6,7 @@ before_script:
   - sudo apt-get install -y unzip
   - curl -k -L -O https://github.com/lightbody/browsermob-proxy/releases/download/browsermob-proxy-2.1.4/browsermob-proxy-2.1.4-bin.zip
   - unzip browsermob-proxy-2.1.4-bin.zip
-  - export BROWSERMOB_PROXY_HOME=`pwd`/browsermob-proxy-2.1.4-bin
+  - export BROWSERMOB_PROXY_HOME=`pwd`/browsermob-proxy-2.1.4
   - sudo chmod +x $BROWSERMOB_PROXY_HOME/bin/browsermob-proxy
   - sh -e /etc/init.d/xvfb start
   - export DISPLAY=:99
