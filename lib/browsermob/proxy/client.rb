@@ -34,6 +34,7 @@ module BrowserMob
       #   client.new_har("page-name", :capture_headers => true)
       #   client.new_har(:capture_headers => true)
       #   client.new_har(:capture_content => true)
+      #   client.new_har(:capture_cookies => true)
       #   client.new_har(:capture_binary_content => true)
       #
 
@@ -47,6 +48,7 @@ module BrowserMob
 
         params[:initialPageRef] = ref if ref
         params[:captureHeaders] = true if opts[:capture_headers]
+        params[:captureCookies] = true if opts[:capture_cookies]
         params[:captureContent] = true if opts[:capture_content]
 
         if opts[:capture_binary_content]
