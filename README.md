@@ -91,6 +91,7 @@ Copyright
 ---------
 
 Copyright 2011-2019 Jari Bakken
+
 Copyright 2019 Eric Beland
 
 Licensed under the Apache License, Version 2.0 (the "License");
