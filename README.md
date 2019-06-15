@@ -11,7 +11,7 @@ support, and more. It is an API compatible drop-in replacement, so using it is j
 
 The only compatibility exception is the deprecated legacy API.
 
-This release should work with the binar for either the BrowserUp Proxy, or the BrowserMob Proxy.
+This release should work with the binary for either the BrowserUp Proxy, or the BrowserMob Proxy.
 
 How to use with selenium-webdriver
 ----------------------------------
