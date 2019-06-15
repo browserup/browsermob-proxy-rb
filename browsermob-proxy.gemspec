@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.homepage    = "http://github.com/browserup/browsermob-proxy-rb"
   s.summary     = %q{Ruby client for the BrowserMob and BrowserUp Proxy REST API}
   s.description = %q{Ruby client for the BrowserMob and BrowserUp Proxy REST API}
-  s.license     = 'Apache'
+  s.license     = 'Apache-2.0'
 
   s.rubyforge_project = "browsermob-proxy-rb"
 
