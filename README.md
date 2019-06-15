@@ -3,8 +3,15 @@ browsermob-proxy-rb
 
 Ruby client for the BrowserMob Proxy 2.0 REST API.
 
-[![Build Status](https://secure.travis-ci.org/jarib/browsermob-proxy-rb.png)](http://travis-ci.org/jarib/browsermob-proxy-rb)
+NOTE: The BrowserMob Proxy is no longer actively maintained and has had no releases since 2016. 
 
+A [BrowserMob Proxy alternative](http://browserup.com/blog/announcement-an-actively-maintained-fork-of-the-browsermob-proxy/) is now
+available in the BrowserUp Proxy. The BrowserUp Proxy is an actively maintained fork of the BrowserMob proxy. It has added HTTP/2, Java 11, Brotli compression
+support, and more. It is an API compatible drop-in replacement, so using it is just a matter of using the BrowserUp proxy binary instead.
+
+The only compatibility exception is the deprecated legacy API.
+
+This release should work with the binary for either the BrowserUp Proxy, or the BrowserMob Proxy.
 
 How to use with selenium-webdriver
 ----------------------------------
@@ -64,6 +71,7 @@ The HAR gem includes a HAR viewer. After running the code above, you can view th
 
 See also
 --------
+* https://github.com/browserup/browserup-proxy
 
 * http://bmp.lightbody.net/
 * https://github.com/lightbody/browsermob-proxy
@@ -82,7 +90,8 @@ Note on Patches/Pull Requests
 Copyright
 ---------
 
-Copyright 2011-2014 Jari Bakken
+Copyright 2011-2019 Jari Bakken
+Copyright 2019 Eric Beland
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

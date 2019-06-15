@@ -6,11 +6,11 @@ Gem::Specification.new do |s|
   s.name        = "browsermob-proxy"
   s.version     = BrowserMob::Proxy::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["jari.bakken"]
-  s.email       = ["jari.bakken@gmail.com"]
-  s.homepage    = "http://github.com/jarib/browsermob-proxy-rb"
-  s.summary     = %q{Ruby client for the BrowserMob Proxy REST API}
-  s.description = %q{Ruby client for the BrowserMob Proxy REST API}
+  s.authors     = ["Eric Beland"]
+  s.email       = ["ebeland@browserup.com"]
+  s.homepage    = "http://github.com/browserup/browsermob-proxy-rb"
+  s.summary     = %q{Ruby client for the BrowserMob and BrowserUp Proxy REST API}
+  s.description = %q{Ruby client for the BrowserMob and BrowserUp Proxy REST API}
   s.license     = 'Apache'
 
   s.rubyforge_project = "browsermob-proxy-rb"
