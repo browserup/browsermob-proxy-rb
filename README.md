@@ -76,7 +76,6 @@ See also
 * http://bmp.lightbody.net/
 * https://github.com/lightbody/browsermob-proxy
 
-
 Note on Patches/Pull Requests
 -----------------------------
 
