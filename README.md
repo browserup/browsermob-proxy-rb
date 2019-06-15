@@ -6,7 +6,7 @@ Ruby client for the BrowserMob Proxy 2.0 REST API.
 NOTE: The BrowserMob Proxy is no longer actively maintained and has had no releases since 2016. 
 
 A [BrowserMob Proxy alternative](http://browserup.com/blog/announcement-an-actively-maintained-fork-of-the-browsermob-proxy/) is now
-available in the BrowserUp Proxy. The BrowserUp Proxy is an actively maintained fork of the BrowserMob proxy. It has added HTTP/2, Java 11, Brotli compression
+available in the [BrowserUp Proxy](https://github.com/browserup/browserup-proxy). The BrowserUp Proxy is an actively maintained fork of the BrowserMob proxy. It has added HTTP/2, Java 11, Brotli compression
 support, and more. It is an API compatible drop-in replacement, so using it is just a matter of using the BrowserUp proxy binary instead.
 
 The only compatibility exception is the deprecated legacy API.
