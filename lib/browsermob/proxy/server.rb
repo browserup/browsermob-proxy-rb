@@ -43,8 +43,8 @@ module BrowserMob
         "http://localhost:#{port}"
       end
 
-      def create_proxy(port = nil)
-        Client.from url, port
+      def create_proxy(port = nil, args={})
+        Client.from url, port, args
       end
 
       def stop
